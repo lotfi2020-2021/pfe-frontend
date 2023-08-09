@@ -1,0 +1,252 @@
+<div class="w-full max-w-3xl">
+    <div class="row justify-content-center">
+        <div class="col-10">
+           
+                <div class="profile-picture centered-bg-image d-inline-block border border-5 border-white rounded-3 cursor-pointer mat-elevation-z3 p-0"  
+                    style="margin-top: -100px; height: 180px; width: 180px; background-color: white;margin-left:700px ;">
+                    <mat-icon class="profile-picture centered-bg-image"  style="width: 100%; height: 100%;"  *ngIf="!user?.profilePhoto"
+                    [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                    <img alt="photo"   *ngIf="user?.profilePhoto"
+                    src="{{ host + '/ImageProsuser/' + user?.id }}" style="height: 180px; width: 180px;">
+                    <div align="end"  style="margin-top: -100px; height: 180px; width: 180px;"  (click)="uploadPhoto($event)">
+                        <button mat-mini-fab color="basic" style="margin-top:60px;margin-right:2px;">
+                            <mat-icon class="text-secondary">upload</mat-icon>
+                        </button>
+                    </div>  
+            </div>
+          
+        </div>
+    </div>
+    <!-- Form -->
+    <form [formGroup]="updateInfoFormGroup" (ngSubmit)="UpdateInfo()">
+
+        <!-- Section -->
+        <div class="w-full">
+            <div class="text-xl">Profile</div>
+            <div class="text-secondary">Following information is publicly displayed, be careful!</div>
+        </div>
+        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+            <!-- Name -->
+            <div class="sm:col-span-4">
+                <mat-form-field
+                    class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>First Name</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:user'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'firstName'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!-- Username -->
+            <div class="sm:col-span-4">
+                <mat-form-field
+                    class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>Last Name</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:user'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'lastName'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <div class="sm:col-span-4">
+                <mat-form-field
+                    class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>Education</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:briefcase'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'eduInstitution'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!-- Title -->
+            <div class="sm:col-span-4">
+                <mat-form-field
+                    class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>Workplace</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                       
+                        matPrefix>work</mat-icon>
+                    <input
+                        [formControlName]="'workplace'"
+                        matInput>
+                </mat-form-field>
+            </div>
+        
+            <!-- Company -->
+            <!-- <div class="sm:col-span-2">
+                <mat-form-field
+                class="w-full"
+                [subscriptSizing]="'dynamic'">
+                <mat-label>Company</mat-label>
+                <mat-icon
+                    class="icon-size-5"
+                    svgIcon="heroicons_outline:office-building"
+                    matPrefix></mat-icon>
+                    <mat-select formControlName="entrepriseId">
+                        <mat-option *ngFor="let entreprise of entrepriseList" [value]="entreprise.id">
+                        {{ entreprise?.firstName }} {{ entreprise?.lastName }}
+                        </mat-option>
+                    </mat-select>
+             </mat-form-field>
+            </div> -->
+            <!-- About -->
+            <div class="sm:col-span-4">
+                <mat-form-field
+                    class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>About</mat-label>
+                    <textarea
+                        matInput
+                        [formControlName]="'intro'"
+                        cdkTextareaAutosize
+                        [cdkAutosizeMinRows]="5"></textarea>
+                </mat-form-field>
+        
+            </div>
+
+            <div class="sm:col-span-4">
+                <mat-form-field  class="w-full"   [subscriptSizing]="'dynamic'">
+                    <mat-label>Select your birth date</mat-label>
+                    <input  placeholder="birthday" formControlName="birthDate"    matInput [matDatepicker]="birthDatePicker">
+                    <mat-datepicker-toggle matSuffix [for]="birthDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker touchUi #birthDatePicker></mat-datepicker>
+                    
+                </mat-form-field>
+              </div>
+       
+        </div>
+        <div class="sm:col-span-4">
+            <mat-label>Gender : </mat-label>
+            <mat-radio-group formControlName="gender" class="w-full"  >
+                
+                <mat-radio-button value="male" class="me-3"  >Male</mat-radio-button>
+                <mat-radio-button value="female" style="margin-left:10% ;">Female</mat-radio-button>
+            </mat-radio-group>
+          </div>
+    
+
+        <!-- Divider -->
+        <div class="my-10 border-t"></div>
+
+        <!-- Section -->
+        <div class="w-full">
+            <div class="text-xl">Personal Information</div>
+            <div class="text-secondary">Communication details in case we want to connect with you. These will be kept private.</div>
+        </div>
+        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+            <!-- Email -->
+            <div class="sm:col-span-2">
+                <mat-form-field
+                    class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>Email</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:mail'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'email'"
+                        matInput readonly="true">
+                </mat-form-field>
+            </div>
+            <!-- Phone -->
+            <div class="sm:col-span-2">
+                <mat-form-field
+                    class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>Phone</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:phone'"
+                        matPrefix></mat-icon>
+                    <input
+                        [formControlName]="'telephone'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <!-- Country -->
+            <div class="sm:col-span-4">
+                <mat-form-field
+                    class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>Country</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:location-marker'"
+                        matPrefix></mat-icon>
+                        <mat-select formControlName="countryName">
+                            <mat-option *ngFor="let country of countryList" [value]="country.name">
+                            {{ country?.name }}
+                            </mat-option>
+                        </mat-select>
+                </mat-form-field>
+            </div>
+            <!-- Language -->
+            <div class="sm:col-span-4">
+                <mat-form-field
+                    class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>  City </mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                       
+                        matPrefix>location_on</mat-icon>
+                    <input
+                        [formControlName]="'currentCity'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            <div class="sm:col-span-4">
+                <mat-form-field
+                    class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>HomeTown</mat-label>
+                    <mat-icon
+                        class="icon-size-5"
+                       
+                        matPrefix>location_city</mat-icon>
+                    <input
+                        [formControlName]="'hometown'"
+                        matInput>
+                </mat-form-field>
+            </div>
+            
+        </div>
+
+    
+  
+     
+        <!-- Divider -->
+        <div class="mt-11 mb-10 border-t"></div>
+
+        <!-- Actions -->
+        <div class="flex items-center justify-end">
+            <button
+                mat-stroked-button
+                type="button">
+                Cancel
+            </button>
+            <button
+                class="ml-4"
+                mat-flat-button
+                type="submit"
+                [color]="'primary'">Save
+            </button>
+        </div>
+    </form>
+
+</div>

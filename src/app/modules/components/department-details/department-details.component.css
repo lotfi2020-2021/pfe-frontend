@@ -1,0 +1,18 @@
+.list-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .list-item-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .group-name {
+    margin-right: 20px;
+  }
+  .button-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }

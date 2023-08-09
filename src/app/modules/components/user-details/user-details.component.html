@@ -1,0 +1,48 @@
+
+
+<h2 mat-dialog-title class="text-xl leading-6 font-medium">User details</h2>
+  
+    <mat-card-content>
+      <mat-list>
+        <div class="flex flex-row w-full " style="margin-top: 20px;">
+          <mat-icon class="icon-size-5 mr-3" [svgIcon]="'heroicons_outline:user'"></mat-icon>
+          <h4 matLine>Name:</h4>
+          <p style="margin-left: 10px;" matLine>{{user?.firstName }} {{user?.lastName }}</p>
+        </div>
+  
+        <div class="flex flex-row w-full " style="margin-top: 20px;" *ngIf="user?.intro">
+          <mat-icon class="icon-size-5 mr-3"  svgIcon="heroicons_outline:menu" > </mat-icon>
+          <h4 matLine>intro:</h4>
+          <p matLine style="margin-left: 10px;" >{{user?.intro }}</p>
+        </div>
+  
+        <div class="flex flex-row w-full " style="margin-top: 20px;">
+          <mat-icon class="icon-size-5 mr-3" [svgIcon]="'heroicons_outline:mail'"></mat-icon>
+          <h4 matLine>Email</h4>
+          <h4 matLine style="margin-left: 10px;"> {{user?.email }}</h4>
+        </div>
+        
+        <div class="flex flex-row w-full " style="margin-top: 20px;" *ngIf="user?.telephone">
+          <mat-icon class="icon-size-5 mr-3" [svgIcon]="'heroicons_outline:phone'"></mat-icon>
+          <h4 matLine>Telephone:</h4>
+          <h4 matLine style="margin-left: 10px;"> {{user?.telephone }}</h4>
+        </div>
+
+        <div class="flex flex-row w-full " style="margin-top: 20px;" *ngIf="user?.hometown">
+            <mat-icon  class="icon-size-5 mr-3" [svgIcon]="'heroicons_outline:home'"></mat-icon>
+            <h4 matLine>HomeTown:</h4>
+            <h4 matLine style="margin-left: 10px;"> {{user?.hometown }}</h4>
+          </div>
+          <div class="flex flex-row w-full " style="margin-top: 20px;" *ngIf="user?.currentCity">
+            <mat-icon  class="icon-size-5 mr-3" [svgIcon]="'heroicons_outline:location-marker'"></mat-icon>
+            <h4 matLine>City:</h4>
+            <h4 matLine style="margin-left: 10px;"> {{user?.currentCity }}</h4>
+          </div>
+
+   
+
+      </mat-list>
+    </mat-card-content>
+  
+
+  

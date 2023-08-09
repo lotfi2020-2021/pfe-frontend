@@ -1,0 +1,62 @@
+<mat-card>
+    <div>
+      <div class="text-2xl font-bold tracking-tight leading-none">Add New Notification</div>
+      
+  </div>
+  <mat-divider></mat-divider>
+    <mat-card-content style="height:auto ; margin-top: 20px;">
+      <form  #notificationForm="ngForm" (ngSubmit)="onSave()">
+
+        <mat-form-field style="width: 100%;">
+          <input matInput placeholder="Titre" name="title" [(ngModel)]="title" required>
+          <mat-error *ngIf="!notificationForm.submitted && notificationForm.controls['title'].errors?.required">Title is required</mat-error>
+        </mat-form-field><br>
+     
+
+        <mat-form-field style="width: 100%;">
+          <textarea matInput placeholder="Content"   [(ngModel)]="content" required   name="content"></textarea>
+          <mat-error *ngIf="!notificationForm.submitted && notificationForm.controls['content'].errors?.required">Content is required</mat-error>
+        </mat-form-field><br>
+     
+        <mat-form-field style="width: 100%;">
+            <mat-label>Type</mat-label>
+            <mat-select name="type" required [(ngModel)]="type">
+              <mat-option value="WARN">WARN</mat-option>
+              <mat-option value="INFO">INFO</mat-option>
+            </mat-select>
+          </mat-form-field>
+     
+  
+        <mat-form-field class="color-field" style="width: 100%;">
+        <mat-label>Users</mat-label>
+        <mat-chip-listbox #chipList>
+          <mat-chip *ngFor="let item of emails"  [removable]="true" (removed)="remove(item)">
+           
+            <!-- <img matChipAvatar src="https://material.angular.io/assets/img/examples/shiba1.jpg" alt="Photo of a Shiba Inu" /> -->
+            <mat-icon matChipAvatar >account_circle</mat-icon>
+            {{ item }}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+         
+          <input matInput placeholder="Add email..." [matChipInputFor]="chipList" [matAutocomplete]="auto" [formControl]="emailCtrl"
+          (matChipInputTokenEnd)="add($event)" (ngModelChange)="filterArray2()"   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"  required=""/>
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let email of afterFilter2 | async" [value]="email">
+              {{ email }}
+            </mat-option>
+  
+          </mat-autocomplete>
+        </mat-chip-listbox>
+        <mat-error *ngIf="emailCtrl.invalid"> Please select at least one email</mat-error>
+        </mat-form-field><br>
+        <mat-checkbox   (click)="onShowAllEmailsChange()" >All users</mat-checkbox >
+
+  
+
+        
+          <button style="margin-top: 30px;margin-left: 30px;width:100px;" mat-raised-button color="primary"type="submit"[disabled]="!notificationForm.valid||!notificationForm.touched"> send</button>
+        <button  style="margin-top: 30px ;margin-left: 30px;width:100px" mat-raised-button color="warn" (click)="onCancel()">cancel</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  

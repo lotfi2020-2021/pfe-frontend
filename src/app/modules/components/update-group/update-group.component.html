@@ -1,0 +1,109 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+  <!-- Header -->
+                      <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+                          <div class="flex-1 min-w-0">
+                              <!-- Breadcrumbs -->
+                          
+                              <!-- Title -->
+                              <div class="mt-2">
+                                <div>
+                                  <div class="text-4xl font-extrabold tracking-tight leading-none">Edit Group</div>
+                               
+                              </div>
+                              </div>
+                          </div>
+                          <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+       
+                      
+                          </div>   
+                      </div>
+<br>
+  <!-- Main -->
+  <div style="margin-left: 50px;" class="flex-auto p-12 sm:p-12">
+
+
+<div class="container"  style="margin-left: 200px;">
+
+  <div style="display:flex; flex-direction:row;width:1000px;">
+    <!-- Group Info -->
+    <mat-card style="flex: 1; margin-right: 20px; padding: 20px; " >
+     
+
+         <form  [formGroup]="groupForm" (ngSubmit)="updateGroup()">
+      <mat-form-field style="width: 100%;"   appearance="fill">
+        <mat-label> Name Department:</mat-label>
+        <input matInput type="text" formControlName="name" placeholder="Enter last name">
+        <mat-error *ngIf="groupForm.get('name').invalid">
+          <span *ngIf="groupForm.get('name').hasError('required')"> name is required.</span>
+        </mat-error>
+      </mat-form-field>
+        
+       
+<mat-form-field style="width: 100%;"  >
+<mat-label>Email responsible Grooup:</mat-label>
+<input matInput type="email" formControlName="responsableGroup" placeholder="Enter email">
+<mat-error *ngIf="groupForm.get('responsableGroup').invalid">
+<span *ngIf="groupForm.get('responsableGroup').hasError('required')">Email is required.</span>
+<span *ngIf="groupForm.get('responsableGroup').hasError('email')">Invalid email format.</span>
+</mat-error>
+</mat-form-field>
+
+
+
+<mat-form-field style="width: 100%;" class="w-full">
+<mat-label>Description:</mat-label>
+<textarea matInput formControlName="description" rows="5" placeholder="Enter description"></textarea>
+<mat-error *ngIf="groupForm.get('description').invalid && (groupForm.get('description') || groupForm.get('description'))">
+<span *ngIf="groupForm.get('description').hasError('required')">description is required.</span>
+</mat-error>
+</mat-form-field>
+
+      <div style="text-align:center">
+        <button mat-raised-button color="primary" type="submit">Update Group</button>
+      </div>
+      
+         </form>
+
+    </mat-card>
+
+    <mat-card style="width: 500px;">
+      <mat-card-title></mat-card-title>
+      <mat-card-actions>
+        <mat-form-field appearance="fill"  class="fuse-mat-dense fuse-mat-rounded w-full min-w-50" style="width: 70%;">
+          <mat-label></mat-label>
+          <input matInput [matAutocomplete]="auto" [formControl]="emailCtrl" placeholder="Enter email" [(ngModel)]="email" (ngModelChange)="filterArray()">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let email of afterFilter | async" [value]="email">
+              {{ email }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <button mat-raised-button color="primary"  (click)="addMember()">
+          <mat-icon>add</mat-icon> Add </button>
+      </mat-card-actions>
+      <mat-card-content>
+        <mat-chip-listbox *ngIf="group?.employees.length > 0">
+          <mat-chip *ngFor="let member of group?.employees" [removable]="true">
+           <img matChipAvatar *ngIf="member.profilePhoto" src="{{ host + '/ImageProsuser/' + member?.id }}" alt="Photo of a member"/> 
+            <mat-icon *ngIf="!member.profilePhoto" matChipAvatar>account_circle</mat-icon>
+            {{member.email}}
+            <mat-icon matChipRemove (click)="deleteMember(member.id)">cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-listbox>
+        <div *ngIf="group?.employees.length === 0" class="text-gray-400 text-lg text-center my-4">
+          <div class="flex flex-auto flex-col items-center justify-center dark:bg-transparent">
+            <mat-icon
+                class="icon-size-24"
+                [svgIcon]="'heroicons_outline:user-group'"></mat-icon>
+            <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">no Members</div>
+        </div>
+        </div>
+      </mat-card-content>
+      
+    
+    </mat-card>
+  </div>
+
+</div>
+  </div>

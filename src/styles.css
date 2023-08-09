@@ -1,0 +1,18 @@
+
+::ng-deep .snackbarstyle-green {
+    background-color:#00ab5b;
+    color: white;
+	margin-top: 20%;
+  }
+
+  ::ng-deep .snackbarstyle-rouge {
+    background-color:#DC143C;
+    color: white;
+  }
+  
+  ::ng-deep  .snackbarstyle-orange {
+    background-color:#ba7116;
+    color: white;
+  }
+  
+  

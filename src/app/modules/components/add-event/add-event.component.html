@@ -1,0 +1,73 @@
+<mat-card>
+  <div>
+    <div class="text-2xl font-bold tracking-tight leading-none">Add New Event</div>
+    
+</div>
+<mat-divider></mat-divider>
+  <mat-card-content style="height:auto ; margin-top: 20px;">
+    <form (ngSubmit)="onSave()">
+      <mat-form-field style="width: 100%;">
+        <input matInput placeholder="Titre" name="summary" required [(ngModel)]="summary">
+      </mat-form-field><br>
+      <mat-form-field style="width: 100%;">
+        <textarea matInput placeholder="Description"   required  [(ngModel)]="description" name="description"></textarea>
+      </mat-form-field><br>
+      <mat-form-field style="width: 100%;">
+        <mat-label>Visibility</mat-label>
+        <mat-select name="visibility" required [(ngModel)]="visibility">
+          <mat-option value="public">Public</mat-option>
+          <mat-option value="private">Private</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <br>
+      <mat-form-field class="color-field" style="width: 100%;">
+        <mat-label>Color</mat-label>
+        <mat-select [(value)]="selectedColor" name="selectedColor">
+          <mat-option *ngFor="let color of colors | keyvalue" [value]="color.key" style="background-color:{{color.value['background']}}">
+           
+              {{color.value['foreground']}}
+         
+          </mat-option>
+        </mat-select>
+      </mat-form-field><br>
+
+
+
+      <br>
+
+      <mat-form-field class="color-field" style="width: 100%;">
+      <mat-label>Users</mat-label>
+      <mat-chip-listbox #chipList>
+        <mat-chip *ngFor="let item of emails" [removable]="true" (removed)="remove(item)">
+
+          <!-- <img matChipAvatar src="https://material.angular.io/assets/img/examples/shiba1.jpg" alt="Photo of a Shiba Inu" /> -->
+          <mat-icon matChipAvatar >account_circle</mat-icon>
+          {{ item }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input matInput placeholder="Add email..." [matChipInputFor]="chipList" [matAutocomplete]="auto" [formControl]="emailCtrl"
+          (matChipInputTokenEnd)="add($event)" (ngModelChange)="filterArray2()" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" />
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let email of afterFilter2 | async" [value]="email">
+            {{ email }}
+          </mat-option>
+
+        </mat-autocomplete>
+      </mat-chip-listbox>
+      </mat-form-field>
+      <mat-checkbox style="margin-left: 20px;margin-top: 20px;" [checked]="guestsCanModify" (change)="guestsCanModify = $event.checked; guestsCanInviteOthers = attendeesOmitted = guestsCanModify">Les invités peuvent modifier</mat-checkbox>
+      <mat-checkbox style="margin-left: 100px;" [checked]="guestsCanInviteOthers" [disabled]="guestsCanModify" (change)="guestsCanInviteOthers = $event.checked">Les invités peuvent inviter autres</mat-checkbox><br>
+      <mat-checkbox style="margin-left: 20px;" [checked]="isAddVideoConference" (change)="isAddVideoConference = $event.checked">add visioconferance</mat-checkbox>
+      <mat-checkbox style="margin-left: 150.5px;" [checked]="attendeesOmitted" [disabled]="guestsCanModify" (change)="attendeesOmitted = $event.checked">Omettre les invités de la liste de participants</mat-checkbox><br>
+      <mat-checkbox style="margin-left: 20px;" [checked]="guestsCanSeeOtherGuests" (change)="guestsCanSeeOtherGuests = $event.checked">Les invités peuvent voir les autres invités</mat-checkbox><br>
+  
+      <div style="margin-top: 10px">
+        <button mat-raised-button  style="margin-left: 400px"  color="warn" (click)="onCancel()">Annuler</button>
+        <button  mat-raised-button style="margin-left :20px" color="primary"  type="submit">Enregistrer</button>
+        
+      </div>
+      
+    </form>
+  </mat-card-content>
+</mat-card>

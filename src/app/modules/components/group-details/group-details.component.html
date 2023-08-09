@@ -1,0 +1,59 @@
+<div [@slideDown]>
+  <mat-card-header>
+    <div class="text-2xl font-bold tracking-tight leading-none"> Group Details</div>
+  </mat-card-header>
+  <mat-card-content>
+   
+
+      <mat-list class="flex flex-row w-full md:w-1/2" style="margin-top: 20px;">
+         
+        <mat-icon class="icon-size-5 mr-3">person</mat-icon>
+        <span matLine>Name:</span><br>
+        <p style="margin-left: 20px;">{{ group ?group.name :''}}</p>
+      </mat-list>
+
+      <mat-list class="flex flex-row w-full md:w-1/2" style="margin-top: 20px;">
+        <mat-icon class="icon-size-5 mr-3">email</mat-icon>
+        <span matLine>Responsible: </span>
+        <span><a style="margin-left: 20px;"  href="mailto:{{ group ?group.responsableGroup :'' }}">  {{   group ?group.responsableGroup :'' }}</a></span>
+      </mat-list>
+
+      <mat-list class="flex flex-row w-full md:w-1/2" style="margin-top: 20px;">
+        <mat-icon class="icon-size-5 mr-3">description</mat-icon>
+        <span matLine>Description:</span>
+        <span matLine style="margin-left: 20px;">{{ group ?group.description :''}}. </span>
+      </mat-list>
+
+      <mat-list class="flex flex-row w-full md:w-1/2" style="margin-top: 20px;">
+        <button mat-button class="toggle-button" (click)="showMembers = !showMembers">
+          <mat-icon class="toggle-icon">{{ showMembers ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
+          {{ showMembers ? 'Hide Members' : 'Show Members' }}
+        </button>
+      </mat-list>
+   <div *ngIf="showMembers">
+    <mat-chip-list  *ngIf="members && members.length > 0; else noMembers" style="width:500px;" >
+      <mat-chip *ngFor="let member of members else noMembers" color="primary">
+        <img matChipAvatar *ngIf="member.profilePhoto" src="{{ host + '/ImageProsuser/' + member?.id }}" alt="Photo of a member"/>
+        <mat-icon matChipAvatar *ngIf="!member.profilePhoto">account_circle</mat-icon>
+        {{member.email}}
+      </mat-chip>
+      
+    </mat-chip-list>
+    <ng-template #noMembers >
+      <div class="flex flex-auto flex-col items-center justify-center  dark:bg-transparent">
+        <mat-icon svgIcon="heroicons_outline:users"></mat-icon>
+        <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">No Members</div>
+    </div>
+    </ng-template>
+   </div>
+
+
+    
+  </mat-card-content>
+  <mat-card-actions>
+    <!-- <button mat-button>Button</button> -->
+  </mat-card-actions>
+  <mat-card-footer>
+ 
+  </mat-card-footer>
+</div>

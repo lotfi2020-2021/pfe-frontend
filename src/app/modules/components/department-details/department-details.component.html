@@ -1,0 +1,207 @@
+
+<div class="flex flex-col flex-auto min-w-0">
+
+  <!-- Header -->
+                      <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+                          <div class="flex-1 min-w-0">
+                              <!-- Breadcrumbs -->
+                          
+                              <!-- Title -->
+                              <div class="mt-2">
+                                  <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                                  Department Details 
+                                  </h2>
+                              </div>
+                          </div>
+                          <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+       
+                      
+                          </div>   
+                      </div>
+<br>
+  <!-- Main -->
+  <div style="margin-left: 50px;" class="flex-auto p-12 sm:p-12">
+
+    
+<div  style="position: absolute; margin-left: 80px; z-index: 1;">
+  <mat-card  style="height:500px ;">
+    <div style="width: 500px;margin-top: 40px;">
+ 
+    <mat-card-content >
+      <mat-list>
+        <div class="flex flex-row w-full md:w-1/2" style="margin-top: 20px;">
+         
+          <mat-icon class="icon-size-5 mr-3">person</mat-icon>
+          <span class="leading-none">{{department ? department.name : ''}}</span>
+      </div>
+
+      <div class="flex flex-row w-full md:w-1/2" style="margin-top: 20px;">
+        <mat-icon class="icon-size-5 mr-3">phone</mat-icon>
+        <span class="leading-none">(+216) {{department ? department.telephone : ''}}</span>
+    </div>
+       
+    <div class="flex flex-row w-full md:w-1/2" style="margin-top: 20px;">
+      <mat-icon class="icon-size-5 mr-3">email</mat-icon>
+      <a class="leading-none" href="mailto:{{ department ? department.email : '' }}" matLine>{{ department ? department.email : ''  }}</a>
+  </div>
+  <div class="flex flex-row w-full md:w-1/2" style="margin-top: 20px;">
+    <mat-icon class="icon-size-5 mr-3">description</mat-icon>
+    <span class="leading-none">{{department ? department.description :''}}.</span>
+</div>
+<div class="flex flex-row w-full md:w-1/2" style="margin-top: 20px;">
+  <mat-icon class="icon-size-5 mr-3">person_pin</mat-icon>
+  <span class="leading-none">{{department ? department.responsableDepartment: ''}}</span>
+</div>
+       
+      </mat-list>
+    </mat-card-content>
+    <mat-card-actions>
+      <!-- <button mat-button>Button</button> -->
+    </mat-card-actions>
+  
+  </div>
+  
+</mat-card> 
+</div>
+    
+
+
+
+    <div style=" display: flex; flex-direction: row; margin-left: 600px; z-index: 0; padding-right:30px ;">
+      <mat-card style="padding-bottom:30px;height:500px ;">
+      <div  style="min-width: 730px;" >
+        <mat-card-header>
+            <div class="text-2xl font-bold tracking-tight leading-none">  Groups </div>
+        </mat-card-header>
+
+        <div class="flex items-center mt-4 sm:mt-0 md:mt-4" style="width:200px ; margin-left:250px;margin-top: 20px;">
+          <!-- Search -->
+          <div class="flex-auto">
+              <mat-form-field
+                  class="fuse-mat-dense fuse-mat-rounded w-full min-w-50"
+                  subscriptSizing="dynamic">
+                  <mat-icon
+                      class="icon-size-5"
+                      matPrefix
+                      [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                  <input
+                      matInput
+                      name="name" id="name" placeholder="Search..."   [(ngModel)]="searchByName"  (ngModelChange)="filterArray()"
+                      [autocomplete]="'off'"
+                      [placeholder]="'Search groups'">
+              </mat-form-field>
+          </div>
+          <button
+          class="ml-4"
+          mat-flat-button
+          [color]="'primary'"
+          matTooltip="create new department" matTooltipPosition="left"  (click)="showAddGroup = !showAddGroup">
+          <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+      
+      </button>
+      </div>
+
+
+
+     
+      
+      
+          <div>
+            <div *ngIf="showAddGroup">
+              <form [formGroup]="createForm" style="margin-top: 30px;">
+                <mat-form-field class="flex-auto" style="width:25%;margin-left: 20px; ">
+                  <mat-label>Group Name</mat-label>
+                  <mat-icon  class="icon-size-5" matPreffix>border_color</mat-icon>
+                  <input matInput formControlName="name" required>
+                </mat-form-field>
+                <mat-form-field class="flex-auto" style="width:25%;margin-left: 20px;">
+                  <mat-label>Group Description</mat-label>
+                  <mat-icon  class="icon-size-5" matPreffix>description</mat-icon>
+                  <input matInput formControlName="description" required>
+                </mat-form-field>
+                <mat-form-field  class="flex-auto" style="width:25%;margin-left: 20px;">
+                  <mat-label>Group Responsable</mat-label>
+                  <mat-icon
+                  class="icon-size-5" matPreffix> email</mat-icon>
+                  <input matInput  [formControl]="emailCtrl" formControlName="responsableGroup" [matAutocomplete]="auto" placeholder="Enter email" [(ngModel)]="searchByemail" (ngModelChange)="filterArray2()">
+
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let email of afterFilter2 | async" [value]="email">
+                      {{ email }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error *ngIf="emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched)">
+                    <span *ngIf="emailCtrl.hasError('required')">Email is required.</span>
+                    <span *ngIf="emailCtrl.hasError('email')">Invalid email format.</span>
+                  </mat-error>
+                </mat-form-field>
+                <button mat-icon-button color="primary" matTooltip="save group" (click)="onCreateGroup()" [disabled]="!createForm.valid">
+                  <mat-icon svgIcon="heroicons_outline:save"></mat-icon>
+                </button>
+                <button mat-icon-button color="warn" matTooltip="cancel"  (click)="showAddGroup = false">
+                  <mat-icon svgIcon="heroicons_outline:x-circle" ></mat-icon>
+                </button>
+              </form>
+              
+            </div>
+     
+          </div>
+
+
+      
+          <div style="margin-top: 16px; position: relative;" style="height: 100px;">
+            <ng-container *ngIf="groups?.length > 0; else noGroups" >
+              <mat-list [@listAnimation]="groups?.length" >
+                <ng-container *ngFor="let group of afterFilter; let firstGroup = first">
+                  <div *ngIf="showAddGroup && firstGroup" class="above">
+    
+                  </div>
+                      <mat-divider></mat-divider>
+                      <mat-list class="list-container" >
+                        <div class="list-item-container">
+                          <mat-icon style="margin-left:10px" matListIcon class="material-icons"> groups</mat-icon>
+                          <h4 matLine style="display: flex; align-content:left;">{{group?.name}}</h4>
+                          <div class="button-container">
+                            <!-- <button mat-icon-button color="primary" matTooltip="create group" *ngIf="firstGroup" (click)="showAddGroup = !showAddGroup">
+                              <mat-icon>group_add</mat-icon>
+                            </button> -->
+                            <button mat-icon-button color="primary" (click)="openGroupDetail(group.id)">
+                              <mat-icon>info</mat-icon>
+                            </button>
+                            <button mat-icon-button color="accent" [routerLink]="['/update-group', group.id]">
+                              <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="warn" (click)="openConfirmationDialog(group.id)">
+                              <mat-icon>delete</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </mat-list>
+                      <mat-divider></mat-divider>
+                    </ng-container>
+                  </mat-list>
+                </ng-container>
+
+
+
+                <ng-template #noGroups >
+                  <div class="flex flex-auto flex-col items-center justify-center  dark:bg-transparent">
+                    <div class="flex flex-auto flex-col items-center justify-center  dark:bg-transparent" style="margin-top: 50px;">
+                      <mat-icon svgIcon="heroicons_outline:users"></mat-icon>
+                      <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">No groups found</div>
+                  </div>
+                </div>
+                 
+                    
+                  </ng-template>
+              </div>
+         
+            </div>
+          
+          </mat-card>
+       
+    </div>
+
+  
+    </div>
+

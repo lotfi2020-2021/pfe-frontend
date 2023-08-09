@@ -1,0 +1,62 @@
+<div [@slideDown]>
+    <mat-card-header>
+      <div class="text-2xl font-bold tracking-tight leading-none"> Notification Details</div>
+    </mat-card-header>
+    <mat-card-content>
+        <a style="margin-left: 300px;" href="javascript:void(0);" matTooltip="update department" (click)="openUpdateNotification(notification.id)" mat-mini-fab class="mat-accent" ><mat-icon svgIcon="heroicons_outline:pencil-alt"></mat-icon></a>
+  
+        <mat-list class="flex flex-row w-full " style="margin-top: 20px;">
+           
+          <mat-icon class="icon-size-5 mr-3">description</mat-icon>
+          <span matLine>title:</span><br>
+          <p style="margin-left: 20px;">{{ notification ?notification.title :''}}</p>
+        </mat-list>
+  
+      
+        <mat-list class="flex flex-row w-full " style="margin-top: 20px; width:100px ;">
+          <mat-icon class="icon-size-5 mr-3">description</mat-icon>
+          <span matLine>Description:</span>
+          <span matLine style="margin-left: 20px; word-wrap: break-word; display: inline-block; width: 500px;">{{notification? notification.content :''}}. </span>
+        </mat-list>
+
+        <mat-list class="flex flex-row w-full " style="margin-top: 20px;">
+         
+            <mat-icon  class="icon-size-5 mr-3" svgIcon="heroicons_outline:clock"></mat-icon>
+            <span matLine>CreatedAt:</span>
+            <span matLine style="margin-left: 20px;">{{notification.dateCreated | date:'MMM dd, h:mm a'}} </span>
+          </mat-list>
+  
+        <mat-list class="flex flex-row w-full " style="margin-top: 20px;width:50px">
+          <button mat-button class="toggle-button" style="width:350px" (click)="showMembers = !showMembers">
+            <mat-icon class="toggle-icon">{{ showMembers ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
+            {{ showMembers ? 'Hide Receivers ' : 'Show Receivers' }}
+          </button>
+        </mat-list>
+     <div *ngIf="showMembers">
+      <mat-chip-list  *ngIf="receivers && receivers.length > 0; else noMembers">
+        <mat-chip *ngFor="let member of receivers else noMembers" color="primary">
+          <img matChipAvatar *ngIf="member.profilePhoto"  src="{{ host + '/ImageProsuser/' + member.id }}" alt="Photo of a member"/>
+          <mat-icon matChipAvatar *ngIf="!member.profilePhoto">account_circle</mat-icon>
+          {{member.receiverEmail}}
+        </mat-chip>
+        
+      </mat-chip-list>
+      <ng-template #noMembers >
+        <div class="flex flex-auto flex-col items-center justify-center  dark:bg-transparent">
+          <mat-icon svgIcon="heroicons_outline:users"></mat-icon>
+          <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">No receivers</div>
+      </div>
+      </ng-template>
+     </div>
+  
+  
+      
+    </mat-card-content>
+    <mat-card-actions>
+      <!-- <button mat-button>Button</button> -->
+    </mat-card-actions>
+    <mat-card-footer>
+   
+    </mat-card-footer>
+  </div>
+  

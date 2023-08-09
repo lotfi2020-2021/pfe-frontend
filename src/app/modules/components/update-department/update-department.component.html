@@ -1,0 +1,84 @@
+
+<div id="loginModal" class="modal show"  role="dialog" aria-hidden="true" style="margin-top: 100px;">
+  <div class="modal-dialog">
+    <div>
+      <div class="text-4xl font-extrabold tracking-tight leading-none">Edit Department</div>
+      
+  </div>
+  <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="close" style="color: rgb(0, 0, 0);" data-dismiss="modal" aria-hidden="true" (click)="closeAddDepartment()"><i class="bi bi-x-circle"></i></button>
+
+      </div>
+      <div class="modal-body">
+          <form  [formGroup]="departmentFormGroup" (ngSubmit)="updateDepartment()">
+         
+            <div class="form-group">
+
+              <mat-form-field style="width: 100%;" appearance="fill">
+                  <mat-label> Name Department:</mat-label>
+                  <input matInput type="text" formControlName="name" placeholder="Enter last name">
+                  <mat-error *ngIf="departmentFormGroup.get('name').invalid && (departmentFormGroup.get('name').dirty || departmentFormGroup.get('name').touched)">
+                    <span *ngIf="departmentFormGroup.get('name').hasError('required')">Last name is required.</span>
+                  </mat-error>
+                </mat-form-field>
+                  
+                 
+  <mat-form-field style="width: 100%;" appearance="fill">
+      <mat-label>Email Department:</mat-label>
+      <input matInput type="email" formControlName="email" placeholder="Enter email">
+      <mat-error *ngIf="departmentFormGroup.get('email').invalid && (departmentFormGroup.get('email').dirty || departmentFormGroup.get('email').touched)">
+        <span *ngIf="departmentFormGroup.get('email').hasError('required')">Email is required.</span>
+        
+        <span *ngIf="departmentFormGroup.get('email').hasError('email')">Invalid email format.</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field style="width: 100%;" appearance="fill">
+      <mat-label>Responsable Department:</mat-label>
+      <input matInput [formControl]="emailCtrl" formControlName="responsableDepartment" [matAutocomplete]="auto" placeholder="Enter email" [(ngModel)]="searchByemail"  (ngModelChange)="filterArray2()">
+      <mat-error *ngIf="emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched)">
+        <span *ngIf="emailCtrl.hasError('required')">Email is required.</span>
+        <span *ngIf="emailCtrl.hasError('email')">Invalid email format.</span>
+      </mat-error>
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let user of afterFilter | async" [value]="user">
+          {{ user }}
+        </mat-option>
+      </mat-autocomplete>
+    
+    </mat-form-field>
+   
+    <mat-form-field style="width: 100%;"  appearance="fill">
+        <mat-label>Telephone Department:</mat-label>
+        <input matInput type="tel" formControlName="telephone" placeholder="Enter telephone"  autocomplete="on">
+        <mat-error *ngIf="departmentFormGroup.get('telephone').invalid && (departmentFormGroup.get('telephone').dirty || departmentFormGroup.get('telephone').touched)">
+          <span *ngIf="departmentFormGroup.get('telephone').hasError('required')">Telephone is required.</span>
+          <span *ngIf="departmentFormGroup.get('telephone').hasError('maxlength')||departmentFormGroup.get('telephone').hasError('minlength')">telephone should be 8 numbers</span>
+        </mat-error>
+      </mat-form-field>
+
+    <mat-form-field style="width: 100%;" appearance="fill">
+      <mat-label>Description:</mat-label>
+      <textarea matInput formControlName="description" rows="5" placeholder="Enter message"></textarea>
+      <mat-error *ngIf="departmentFormGroup.get('description').invalid && (departmentFormGroup.get('description').dirty || departmentFormGroup.get('description').touched)">
+        <span *ngIf="departmentFormGroup.get('description').hasError('required')">Message is required.</span>
+      </mat-error>
+    </mat-form-field>
+              
+            </div>
+            
+            <div class="form-group">
+              <button  mat-raised-button color="primary" [disabled]="!departmentFormGroup.valid" type="submit" style="width: 100%;">save</button>
+             
+            </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+          <div class="col-md-1accordion2">
+        
+          </div>	
+      </div>
+  </div>
+  </div>
+</div>

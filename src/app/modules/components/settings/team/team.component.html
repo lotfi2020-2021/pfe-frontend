@@ -1,0 +1,73 @@
+<div class="w-full max-w-3xl">
+
+    <!-- Add team member -->
+    <div class="w-full">
+      <div *ngIf="user.entrepriseVerified   ">
+       <fuse-alert class="mt-4" [@blink] [appearance]="'border'" [type]="'info'">
+         wait the accept of entreprise!
+        </fuse-alert>
+        </div>
+
+    
+
+   <div *ngIf="!user.entrepriseVerified  ">
+     <div *ngIf=" user.entrepriseId !== null  " >
+      <fuse-alert class="mt-4"   [@blink] [appearance]="'border'"  [type]="'success'">
+        your are affected in company <b> ggggggggggggggggg </b>
+       </fuse-alert>
+       <button   color="primary" style="margin-top: 30px;width: 100%;" (click)="cancelAsignCompany()"
+       mat-flat-button
+       matSuffix>
+          Cancel asign this company
+          
+         </button>
+     </div>
+   
+   <div  *ngIf=" user.entrepriseId ===null ">
+     <mat-form-field 
+     class="w-full" style="margin-top: 20px;"
+     [subscriptSizing]="'dynamic'">
+     <mat-label>Company</mat-label>
+     <mat-icon
+         class="icon-size-5"
+         svgIcon="heroicons_outline:office-building"
+         matPrefix></mat-icon>
+         <mat-select  [(ngModel)]="selectedEntrepriseId" >
+             <mat-option *ngFor="let entreprise of entrepriseList" [value]="entreprise.id">
+             {{ entreprise?.firstName }} {{ entreprise?.lastName }} 
+             </mat-option>
+         </mat-select>
+       
+       </mat-form-field>
+              <button   color="primary"    style="margin-top: 30px;width: 100%;" (click)="updateAccountEntreprise()"
+              mat-flat-button
+              matSuffix>
+                change your company
+                
+                </button>
+
+  </div>
+   
+    
+   
+
+   </div>
+     
+    
+
+
+
+
+      </div>
+    
+<div >
+
+
+ 
+     
+
+  
+      
+      
+
+</div>

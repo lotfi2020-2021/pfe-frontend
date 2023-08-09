@@ -1,0 +1,49 @@
+<div  class="container"  >
+  <div class="text-3xl font-extrabold tracking-tight leading-none"> add demande Entreprise</div>
+  <form [formGroup]="demandeForm" (ngSubmit)="onSubmit()">
+    <mat-form-field style="width: 100%;margin-top: 30px;" appearance="fill">
+      <mat-label>First Name:</mat-label>
+      <input matInput type="text" formControlName="firstName" placeholder="Enter first name">
+      <mat-error *ngIf="demandeForm.get('firstName').invalid && (demandeForm.get('firstName').dirty || demandeForm.get('firstName').touched)">
+        <span *ngIf="demandeForm.get('firstName').hasError('required')">First name is required.</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field style="width: 100%;" appearance="fill">
+      <mat-label>Last Name:</mat-label>
+      <input matInput type="text" formControlName="lastName" placeholder="Enter last name">
+      <mat-error *ngIf="demandeForm.get('lastName').invalid && (demandeForm.get('lastName').dirty || demandeForm.get('lastName').touched)">
+        <span *ngIf="demandeForm.get('lastName').hasError('required')">Last name is required.</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field style="width: 100%;" appearance="fill">
+      <mat-label>Email:</mat-label>
+      <input matInput type="email" formControlName="email" placeholder="Enter email">
+      <mat-error *ngIf="demandeForm.get('email').invalid && (demandeForm.get('email').dirty || demandeForm.get('email').touched)">
+        <span *ngIf="demandeForm.get('email').hasError('required')">Email is required.</span>
+		
+        <span *ngIf="demandeForm.get('email').hasError('email')">Invalid email format.</span>
+      </mat-error>
+    </mat-form-field>
+	<mat-form-field style="width: 100%;" appearance="fill">
+		<mat-label>Telephone:</mat-label>
+		<input matInput type="tel" formControlName="telephone" placeholder="Enter telephone"  autocomplete="off">
+		<mat-error *ngIf="demandeForm.get('telephone').invalid && (demandeForm.get('telephone').dirty || demandeForm.get('telephone').touched)">
+		  <span *ngIf="demandeForm.get('telephone').hasError('required')">Telephone is required.</span>
+		  <span *ngIf="demandeForm.get('telephone').hasError('maxlength')||demandeForm.get('telephone').hasError('minlength')">telephone should be 8 numbers</span>
+	
+		</mat-error>
+	  </mat-form-field>
+
+    <mat-form-field style="width: 100%" appearance="fill">
+      <mat-label>Message:</mat-label>
+      <textarea matInput formControlName="message" rows="5" placeholder="Enter message"></textarea>
+      <mat-error *ngIf="demandeForm.get('message').invalid && (demandeForm.get('message').dirty || demandeForm.get('message').touched)">
+        <span *ngIf="demandeForm.get('message').hasError('required')">Message is required.</span>
+      </mat-error>
+    </mat-form-field>
+
+    <button type="submit" mat-raised-button color="primary" style="width: 100%;">Submit</button>
+  </form>
+</div>

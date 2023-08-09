@@ -1,0 +1,130 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+                    <!-- Title -->
+                    <div>
+                        <div class="text-4xl font-extrabold tracking-tight leading-none">Departments</div>
+                        <div class="ml-0.5 font-medium text-secondary">
+                            <ng-container *ngIf="departments?.length > 0">
+                                {{departments?.length }}
+                            </ng-container>
+                            {{departments?.length | i18nPlural: {
+                            '=0'   : 'No Departments',
+                            '=1'   : 'department',
+                            'other': 'departments'
+                        } }}
+                        </div>
+                    </div>
+  
+                    <!-- Main actions -->
+                    <div class="flex items-center mt-4 sm:mt-0 md:mt-4">
+                        <!-- Search -->
+                        <div class="flex-auto">
+                          
+  <div style="width:50% ; margin-left: 25%;">
+    <mat-form-field
+    class="fuse-mat-dense fuse-mat-rounded w-full min-w-50"
+    subscriptSizing="dynamic">
+    <mat-icon
+        class="icon-size-5"
+        matPrefix
+        [svgIcon]="'heroicons_solid:search'"></mat-icon>
+    <input
+        matInput
+        name="name" id="name" placeholder="Search..."   [(ngModel)]="searchByName"  (ngModelChange)="filterArray()"
+        [autocomplete]="'off'"
+        [placeholder]="'Search contacts'">
+</mat-form-field>
+  </div>
+                        </div>
+                        <!-- Add contact button -->
+                        <button
+                        class="ml-4"
+                        mat-flat-button
+                        [color]="'primary'"
+                        matTooltip="create new department" matTooltipPosition="left"  (click)="openAddDepartment()">
+                        <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                        <span class="ml-2 mr-1">Add</span>
+                    </button>
+                    </div>
+                </div>
+                </div>
+    <!-- Main -->
+    <div style="margin-left: 50px;" class="flex-auto p-12 sm:p-12">
+
+
+
+ 
+  
+
+   
+
+
+<div class="container  ">
+
+
+        <ng-container *ngIf="afterFilter && afterFilter?.length > 0; else noList">
+           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8 md:mt-16">
+              <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let room of afterFilter"  >
+                  <div class="card product_item">
+                      <div class="body" style="margin-top: -60px;">
+                        <fuse-card class="flex flex-col items-center max-w-80 w-full p-8 filter-info">
+                          <div class="flex items-center justify-center p-5 rounded-full bg-primary-100 dark:bg-gray-600">
+                              <mat-icon
+                                  class="icon-size-10 text-primary-500 dark:text-primary-300"
+                                  [svgIcon]="'heroicons_outline:home'"></mat-icon>
+                          </div>
+                          <div class="text-2xl font-semibold leading-tight text-center mt-6">{{room.name}}</div>
+                        
+                          <div class="hover" style="margin-top: 10px;">
+                            <a style="margin-left: 10px;" href="javascript:void(0);" matTooltip="update department" mat-mini-fab class="mat-accent" (click)="openUpdateDepartment(room.id)"><mat-icon svgIcon="heroicons_outline:pencil-alt"></mat-icon></a>
+                              <a  style="margin-left: 10px;"href="javascript:void(0);"  matTooltip="details department" mat-mini-fab color="primary" [routerLink]="['/department-details', room.id]" ><mat-icon svgIcon="heroicons_outline:information-circle"></mat-icon></a>
+                              <a style="margin-left: 10px;" href="javascript:void(0);" matTooltip="delete department"  mat-mini-fab class="mat-warn" (click)="openConfirmationDialog(room.id)"><mat-icon svgIcon="heroicons_outline:trash"></mat-icon> </a>
+                          </div>
+                      </fuse-card>
+                      
+                      </div>
+                      
+                  </div>
+                  
+              </div>
+      
+          </div>
+        </ng-container>
+        <ng-template #noList>
+            <div class="flex flex-auto flex-col items-center justify-center bg-gray-100 dark:bg-transparent">
+                <mat-icon
+                    class="icon-size-24"
+                    [svgIcon]="'heroicons_outline:clipboard-list'"></mat-icon>
+                <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">no Departments</div>
+            </div>
+        </ng-template>
+
+
+    </div>
+
+    </div>    
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
+    
+
+ 

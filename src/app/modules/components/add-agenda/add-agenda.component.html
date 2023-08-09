@@ -1,0 +1,27 @@
+<mat-card>
+    <mat-card-title>New Agenda</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="agendaForm" (ngSubmit)="saveAgenda()" #f="ngForm">
+        <mat-form-field style="width: 100%;">
+          <mat-icon matPrefix style="margin-right:10px;">event</mat-icon>
+          <mat-label>Title</mat-label>
+          <input matInput placeholder="Enter title" formControlName="title" required>
+          <mat-error *ngIf="agendaForm.get('title').invalid && (agendaForm.get('title').dirty || agendaForm.get('title').touched)">
+            <span *ngIf="agendaForm.get('title').hasError('required')">Description is required.</span>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field style="width: 100%;margin-top: 20px;">
+          <mat-icon matPrefix style="margin-right:10px;">description</mat-icon>
+          <mat-label>Description</mat-label>
+          <textarea matInput placeholder="Enter description" formControlName="description" required></textarea>
+          <mat-error *ngIf="agendaForm.get('description').invalid && (agendaForm.get('description').dirty || agendaForm.get('description').touched)">
+            <span *ngIf="agendaForm.get('description').hasError('required')">Description is required.</span>
+          </mat-error>
+        </mat-form-field>
+        <button mat-raised-button style="width: 100%;" color="primary" [disabled]="!agendaForm.valid" [@fadeInOut]>Add</button>
+      </form>
+    </mat-card-content>
+    
+ 
+
+  

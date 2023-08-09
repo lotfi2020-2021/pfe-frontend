@@ -1,0 +1,80 @@
+<mat-card>
+  <div class="text-3xl font-extrabold tracking-tight leading-none"> Edit Event</div>
+        
+    <mat-card-content style="height:auto ;">
+      <form (ngSubmit)="onUpdate()">
+        <mat-form-field style="width: 100%;">
+          <input matInput placeholder="Titre" name="summary" required [(ngModel)]="summary">
+        </mat-form-field><br>
+        <mat-form-field style="width: 100%;">
+          <textarea matInput placeholder="Description" [(ngModel)]="description" name="description"></textarea>
+        </mat-form-field><br>
+        <mat-form-field style="width: 100%;">
+          <mat-label>Visibility</mat-label>
+          <mat-select name="visibility" required [(ngModel)]="visibility">
+            <mat-option value="public">Public</mat-option>
+            <mat-option value="private">Private</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <br>
+        <mat-form-field style="width: 100%;">
+          <mat-label>Color</mat-label>
+          <mat-select [(value)]="selectedColor" name="selectedColor">
+            <mat-option *ngFor="let color of colors | keyvalue"  [value]="color.key" style="background-color:{{color.value['background']}}">
+           
+              {{color.value['background']}}
+         
+          </mat-option>
+          </mat-select>
+        </mat-form-field><br>
+  
+  
+  
+        <br>
+  
+        <mat-form-field style="width: 100%;">
+        <mat-label>Users</mat-label>
+        <mat-chip-listbox  class="flex-auto" #chipList > 
+          <mat-chip *ngFor="let item of emails" [removable]="true" (removed)="remove(item)">
+
+            <mat-icon matChipAvatar>account_circle</mat-icon>
+            {{ item }}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input matInput placeholder="Add email..." [matChipInputFor]="chipList" [matAutocomplete]="auto" [formControl]="emailCtrl"
+            (matChipInputTokenEnd)="add($event)" (ngModelChange)="filterArray2()" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" />
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let email of afterFilter2 | async" [value]="email">
+              {{ email }}
+            </mat-option>
+  
+          </mat-autocomplete>
+        </mat-chip-listbox>
+      </mat-form-field>
+        <!-- <mat-form-field>
+            <mat-label>start</mat-label>
+            <input matInput [matDatepicker]="startDateTimePicker" placeholder="Start Date Time" name="startDateTime" required [(ngModel)]="startDateTime">
+            <mat-datepicker-toggle matSuffix [for]="startDateTimePicker"></mat-datepicker-toggle>
+            <mat-datepicker #startDateTimePicker></mat-datepicker>
+          </mat-form-field>
+          
+          <mat-form-field style="margin-left: 20px;">
+            <mat-label>end</mat-label>
+            <input matInput [matDatepicker]="endDateTimePicker" placeholder="End Date Time" name="endDateTime" required [(ngModel)]="endDateTime">
+            <mat-datepicker-toggle matSuffix [for]="endDateTimePicker"></mat-datepicker-toggle>
+            <mat-datepicker #endDateTimePicker></mat-datepicker>
+          </mat-form-field> -->
+        <mat-checkbox style="margin-left: 20px;margin-top: 20px;" [checked]="guestsCanModify" (change)="guestsCanModify = $event.checked; guestsCanInviteOthers = attendeesOmitted = guestsCanModify">Les invités peuvent modifier</mat-checkbox>
+        <mat-checkbox style="margin-left: 20px;" [checked]="guestsCanInviteOthers" [disabled]="guestsCanModify" (change)="guestsCanInviteOthers = $event.checked">Les invités peuvent inviter autres</mat-checkbox><br>
+        <mat-checkbox style="margin-left: 20px;" [checked]="isAddVideoConference" (change)="isAddVideoConference = $event.checked">add visioconferance</mat-checkbox>
+        <mat-checkbox style="margin-left: 20px;" [checked]="attendeesOmitted" [disabled]="guestsCanModify" (change)="attendeesOmitted = $event.checked">Omettre les invités de la liste de participants</mat-checkbox><br>
+        <mat-checkbox style="margin-left: 20px;" [checked]="guestsCanSeeOtherGuests" (change)="guestsCanSeeOtherGuests = $event.checked">Les invités peuvent voir les autres invités</mat-checkbox><br>
+        
+  
+        <button mat-raised-button color="primary" type="submit">update</button>
+        <button mat-raised-button color="warn" (click)="onCancel()">Annuler</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  

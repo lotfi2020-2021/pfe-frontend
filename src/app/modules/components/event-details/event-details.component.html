@@ -1,0 +1,119 @@
+
+<mat-dialog-actions>
+  <mat-card-header>
+    <div class="text-3xl font-extrabold tracking-tight leading-none"> Event Details</div>
+  </mat-card-header>
+</mat-dialog-actions>
+<mat-card-actions>
+  <button mat-raised-button [color]="'warn'" (click)="onClick('delete')" matTooltip="Delete event">
+    <mat-icon>delete</mat-icon>
+  </button>
+  
+  <button style="margin-left: 20px;" mat-raised-button [color]="'primary'" (click)="onClick('update')" matTooltip="Update event">
+    <mat-icon>edit</mat-icon>
+  </button>
+  
+  <!-- <button style="margin-left: 20px;" mat-raised-button color="primary" (click)="refreshEvent()" matTooltip="Refresh event">
+    <mat-icon>refresh</mat-icon>
+  </button> -->
+</mat-card-actions>
+<mat-card >
+
+  <mat-card-content  *ngIf="event; else loadingTemplate">
+    <mat-list>
+      <div class="flex flex-row w-full " style="margin-top: 20px;">
+        <mat-icon class="icon-size-5 mr-3">person</mat-icon>
+        <h4 matLine>Name:</h4>
+        <p style="margin-left: 10px;" matLine>{{ event?.summary }} </p>
+      </div>
+
+      <div class="flex flex-row w-full " style="margin-top: 20px;">
+        <mat-icon class="icon-size-5 mr-3">description</mat-icon>
+        <h4 matLine>Description:</h4>
+        <p matLine style="margin-left: 10px;" >{{ event?.description }}</p>
+      </div>
+
+      <div class="flex flex-row w-full " style="margin-top: 20px;">
+        <mat-icon class="icon-size-5 mr-3">schedule</mat-icon>
+        <h4 matLine>start:</h4>
+        <h4 matLine style="margin-left: 10px;"> {{ start | date:' EEEE, MMMM , yyyy hh:mm '}}</h4>
+      </div>
+      
+      <div class="flex flex-row w-full " style="margin-top: 20px;">
+        <mat-icon class="icon-size-5 mr-3">schedule</mat-icon>
+        <h4 matLine>end:</h4>
+        <h4 matLine style="margin-left: 10px;"> {{ end | date:' EEEE, MMMM , yyyy hh:mm '}}</h4>
+      </div>
+
+      <div class="flex flex-row w-full " style="margin-top: 20px;">
+      
+        <mat-icon *ngIf="event?.visibility=='private'" class="icon-size-5 mr-3">lock</mat-icon>
+        <mat-icon *ngIf="event?.visibility=='public'" class="icon-size-5 mr-3">lock_open</mat-icon>
+        <h4 matLine>visibility:</h4>
+        <p matLine style="margin-left: 10px;">{{ event?.visibility }}</p>
+      </div>
+
+   
+
+      <div class="flex flex-row w-full " style="margin-top: 20px;">
+        <mat-icon class="icon-size-5 mr-3">person</mat-icon>
+        <h4 matLine>Creator:</h4>
+        <p matLine style="margin-left: 10px;">{{ event?.creator?.email }}</p>
+      </div>
+
+      <div class="flex flex-row w-full " style="margin-top: 20px;">
+        <mat-icon class="icon-size-5 mr-3">lock_open</mat-icon>
+        <h4 matLine>Guests can modify:</h4>
+        <p matLine style="margin-left: 10px;">{{ event?.guestsCanModify||'false' }}</p>
+      </div>
+
+      <div class="flex flex-row w-full " style="margin-top: 20px;">
+        <mat-icon class="icon-size-5 mr-3">link</mat-icon>
+        <h4 >Meet Link:</h4>
+        <a style="margin-left: 10px;"  href="{{ event?.hangoutLink }}" target="_blank" color="primary"  matTooltip="Meet Link">{{ event?.hangoutLink }}</a>
+        
+      </div>
+
+      <div class="flex flex-row w-full " style="margin-top: 20px;">
+        <mat-icon class="icon-size-5 mr-3">link</mat-icon>
+        <h4 >Calender Link:</h4>
+        <a  style="margin-left: 10px;"  href="{{ event?.htmlLink }}" target="_blank"  color="primary" matTooltip="Calendar Link">Google Calender Link</a>
+      </div>
+
+      <!-- <div class="flex flex-row w-full md:w-1/2" style="margin-top: 20px;">
+        <mat-icon class="icon-size-5 mr-3">notifications</mat-icon>
+        <h4 matLine>Notifications:</h4>
+        <p matLine>{{ event?.notifications }}</p>
+      </div> -->
+
+      <div class="flex flex-row w-full " style="margin-top: 20px;">
+        <button mat-button class="toggle-button" (click)="showAttendees = !showAttendees">
+          <mat-icon class="toggle-icon">{{ showAttendees ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
+          {{ showAttendees ? 'Hide guests' : 'Show guests' }}
+        </button>
+      <div>
+        
+      </div>
+      </div>
+      <mat-chip-list *ngIf="showAttendees">
+       
+        <mat-chip *ngFor="let attendee of event?.attendees">
+          <mat-icon   matChipAvatar>person</mat-icon>
+          {{attendee?.email}}
+        </mat-chip>
+      </mat-chip-list>
+    </mat-list>
+
+   
+  </mat-card-content>
+ 
+ 
+  
+  <ng-template #loadingTemplate>
+    <div class="text-center py-10" style="margin-left:200px;">
+      <mat-spinner diameter="100"></mat-spinner>
+     
+    </div>
+  </ng-template>
+ 
+</mat-card>

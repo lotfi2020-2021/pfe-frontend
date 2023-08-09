@@ -1,0 +1,109 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+                    <!-- Title -->
+                    <div>
+                        <div class="text-4xl font-extrabold tracking-tight leading-none">Notifications</div>
+                        <div class="ml-0.5 font-medium text-secondary">
+                            <ng-container *ngIf="dataSource.data.length > 0">
+                                {{dataSource.data.length }}
+                            </ng-container>
+                            {{dataSource.data.length | i18nPlural: {
+                            '=0'   : 'No notifications',
+                            '=1'   : 'notification',
+                            'other': 'notifications'
+                        } }}
+                        </div>
+                    </div>
+  
+                    <!-- Main actions -->
+                    <div class="flex items-center mt-4 sm:mt-0 md:mt-4">
+                        <!-- Search -->
+                        <div class="flex-auto">
+                          
+  <div style="width:50% ; margin-left: 25%;">
+    <mat-form-field
+        class="fuse-mat-dense fuse-mat-rounded w-full min-w-50"
+        subscriptSizing="dynamic">
+        <mat-icon
+            class="icon-size-5"
+            matPrefix
+            [svgIcon]="'heroicons_solid:search'"></mat-icon>
+        <input
+            matInput
+            name="name" id="name" placeholder="Search..."   [(ngModel)]="searchByName"  (ngModelChange)="filterArray()"
+            [autocomplete]="'off'"
+            [placeholder]="'Search notifications'">
+    </mat-form-field>
+  </div>
+                        </div>
+                        <!-- Add contact button -->
+                        <button
+                            class="ml-4"
+                            mat-flat-button
+                            [color]="'primary'"
+                            (click)=" openAddNotification()"
+            
+                           >
+                            <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                            <span class="ml-2 mr-1">Add</span>
+                        </button>
+                    </div>
+                </div>
+                </div>
+    <!-- Main -->
+    <div style="margin-left: 50px;" class="flex-auto p-12 sm:p-12">
+  <mat-table [dataSource]="dataSource" matSort  >
+  
+   
+      <ng-container matColumnDef="icon">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>  </mat-header-cell>
+        <mat-cell *matCellDef="let notification"><mat-icon svgIcon="heroicons_outline:bell"></mat-icon></mat-cell>
+      </ng-container>
+  
+  
+    
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> title</mat-header-cell>
+        <mat-cell *matCellDef="let notification"> {{notification.title}} </mat-cell>
+      </ng-container>
+    
+      
+  
+       
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> type</mat-header-cell>
+        <mat-cell *matCellDef="let notification">  <span
+            class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase"
+            [ngClass]="{'bg-red-200 text-red-800 dark:bg-red-600 dark:text-red-50': notification.type === 'WARN',
+                        'bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50': notification.type === 'INFO'}">
+            <span class="leading-relaxed whitespace-nowrap">{{notification.type}}</span>
+        </span>  </mat-cell>
+      </ng-container>
+       
+    
+  
+  
+      <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>  </mat-header-cell>
+        <mat-cell *matCellDef="let notification"> <button  mat-raised-button color="warn"  (click)="openConfirmationDialog(notification.id)" > <mat-icon svgIcon="feather:trash-2"></mat-icon></button> </mat-cell>
+      </ng-container>
+  
+  
+      <ng-container matColumnDef="details">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>  </mat-header-cell>
+        <mat-cell *matCellDef="let notification" ><button  mat-raised-button color="primary"   (click)=" openNotificationDetails(notification)"><mat-icon svgIcon="feather:info"></mat-icon> </button></mat-cell>
+        
+      </ng-container>
+    
+     
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    
+    </mat-table>
+    
+  
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10"></mat-paginator> 
+    </div>

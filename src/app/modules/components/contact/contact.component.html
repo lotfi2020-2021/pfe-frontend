@@ -1,0 +1,362 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div class="bg-card">
+        <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+            <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-12">
+                <!-- Avatar and name -->
+                <div class="flex flex-auto items-center min-w-0">
+                    <div class="flex-0 w-16 h-16 rounded-full overflow-hidden">
+                        <img
+                            class="w-full h-full object-cover"
+                            src="assets/images/avatars/brian-hughes.jpg">
+                    </div>
+                    <div class="flex flex-col min-w-0 ml-4">
+                        <ng-container *transloco="let t">
+                            <div class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">{{t('welcome-back')}}, {{authUser?.firstName}}!</div>
+                        </ng-container>
+                        <div class="flex items-center">
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:bell'"></mat-icon>
+                            <div class="ml-1.5 leading-6 truncate text-secondary">You have 2 new messages and 15 new tasks</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Actions -->
+                <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                    <button
+                        class="bg-accent"
+                        mat-flat-button
+                        [color]="'accent'">
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                        <span class="ml-2">Messages</span>
+                    </button>
+                    <button
+                        mat-flat-button
+                        [color]="'primary'">
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'heroicons_solid:cog'"></mat-icon>
+                        <span class="ml-2">Settings</span>
+                    </button>
+                </div>
+            </div>
+       
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
+        <div class="w-full max-w-screen-xl mx-auto">
+            <!-- Tabs -->
+            <mat-tab-group
+                class="sm:px-2"
+                mat-stretch-tabs="false"
+                [animationDuration]="'0'">
+
+           
+
+           
+
+                <!-- Team -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <span class="inline-flex items-ceSnter space-x-2">
+                            <span class="">users</span>
+                            <span class="px-2 py-1 text-sm rounded-full bg-primary-100 text-on-primary-100">{{data.length}}</span>
+                        </span>
+                    </ng-template>
+                    
+                    
+                    <ng-template matTabContent>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full min-w-0">
+                            <ng-container *ngFor="let member of data ; let i = index; trackBy: trackByFn">
+                                <div class="flex flex-col flex-auto items-center bg-card shadow rounded-2xl overflow-hidden">
+                                    <!-- Avatar & Info -->
+                                    <div class="flex flex-col flex-auto w-full p-8 text-center" 
+                                    [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover': !selectedContact || selectedContact.id !== member.id,
+                                                'bg-primary-50 dark:bg-hover': selectedContact && selectedContact.id === member.id}"
+                                    [routerLink]="['./', member.id]">
+                                        <div class="w-32 h-32 mx-auto rounded-full overflow-hidden">
+                       <mat-icon class="profile-picture centered-bg-image"  style="width: 100%; height: 100%;"  *ngIf="!member.profilePhoto"
+                        [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                       <img alt="photo"   *ngIf="member.profilePhoto" src="{{ host + '/ImageProsuser/'+ member.id }}" class="w-full h-full object-cover">
+                                        </div>
+                                        
+                                        <div class="mt-6 font-medium">{{member.firstName}} {{member.lastName}}</div>
+                                        <div class="text-secondary">{{member.email}}</div>
+                                    </div>
+                                    <!-- Email & Phone -->
+                                    <div class="flex items-center w-full border-t divide-x">
+                                        <a
+                                            class="flex flex-auto items-center justify-center py-4 hover:bg-hover"
+                                            [href]="'mailto:' + member.email">
+                                            <mat-icon
+                                                class="icon-size-5 text-hint"
+                                                [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                                            <span class="ml-2">Email</span>
+                                        </a>
+
+                                        <a   (click)='bloquer( member.id)' *ngIf="member.enabled === true"
+                                        class="flex flex-auto items-center justify-center py-4 hover:bg-hover"
+                                       >
+                                        <mat-icon
+                                            class="icon-size-5 text-hint"
+                                            [svgIcon]="'heroicons_solid:lock-open'"    ></mat-icon>
+                                        <span class="ml-2">bloquer</span>
+                                        </a>
+
+                                        <a  class="flex flex-auto items-center justify-center py-4 hover:bg-hover"   
+                                        *ngIf="member.enabled === false "   (click)='bloquer( member.id)'
+                                        >
+                                        <mat-icon
+                                            class="icon-size-5 text-hint"
+                                            [svgIcon]="'heroicons_solid:lock-closed'"   ></mat-icon>
+                                        <span class="ml-2">debloquer</span>
+                                        </a>
+
+
+                                        <a
+                                        class="flex flex-auto items-center justify-center py-4 hover:bg-hover"
+                                            [href]="'tel:' + member.telephone" *ngIf="member.telephone"   >
+                                            <mat-icon
+                                                class="icon-size-5 text-hint"
+                                                [svgIcon]="'heroicons_solid:phone'"></mat-icon>
+                                            <span class="ml-2">Call</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </ng-template>
+                </mat-tab>
+               
+                   <mat-tab >
+                    <ng-template mat-tab-label>
+                        <span class="inline-flex items-ceSnter space-x-2">
+                            <span class="">demande</span>
+                            <span class="px-2 py-1 text-sm rounded-full bg-primary-100 text-on-primary-100">{{dataSource.data.length}}</span>
+                        </span>
+                    </ng-template>
+                   
+                    <ng-template matTabContent>
+                        <div>
+                          
+                         
+                                  
+          <div style="width:50% ; margin-left: 25%;">
+            <mat-form-field
+                class="fuse-mat-dense fuse-mat-rounded w-full min-w-50"
+                subscriptSizing="dynamic">
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                <input  
+                    matInput
+                    name="name" id="name" placeholder="...Search..."   [(ngModel)]="searchByName"  (ngModelChange)="filterArray()"
+                   
+                   >
+            </mat-form-field>
+          </div>
+
+
+                            <div class="sm:col-span-3 lg:col-span-2 grid grid-cols-1 gap-y-6">
+                               
+                         
+                              
+                                <div style="margin-left: 50px; margin-top: 20px;">
+                                    
+                                    
+
+                                    <mat-table [dataSource]="dataSource" matSort   >
+                                
+                                   
+                                    <ng-container matColumnDef="firstName">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header> FirstName </mat-header-cell>
+                                      <mat-cell *matCellDef="let demande"> {{demande.firstName}}   </mat-cell>
+                                    </ng-container>
+                                
+                                    <ng-container matColumnDef="lastName">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header> LastName </mat-header-cell>
+                                        <mat-cell *matCellDef="let demande"> {{demande.lastName}}  </mat-cell>
+                                      </ng-container>
+                                
+                                  
+                                
+                                    <ng-container matColumnDef="email">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+                                      <mat-cell *matCellDef="let demande"> {{demande.email}} </mat-cell>
+                                    </ng-container>
+                                
+                              
+                                    <ng-container matColumnDef="valider">
+                                      <mat-header-cell *matHeaderCellDef mat-sort-header> valider  </mat-header-cell>
+                                    
+                                      <mat-cell *matCellDef="let demande">  
+                                        <button   (click)="openvalidation2Component(demande.id)"   > <span
+                                        class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase"
+                                        [ngClass]="'bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50'
+                                                  ">
+                                        <span class="leading-relaxed whitespace-nowrap">valider</span>
+                                    </span> 
+                                </button> 
+                               
+                                      </mat-cell>
+                                    </ng-container>
+                                
+                               
+                             
+                                  
+                                 
+                                
+                                
+                                  
+                                   
+                                    
+                                
+                                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                                
+                                  </mat-table>
+                                  
+                                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10"></mat-paginator> 
+                                
+                                
+                                  </div>
+                            </div>
+                    
+                        </div> 
+                    </ng-template>
+                </mat-tab>
+                <!-- <mat-tab label="Home">
+                    <ng-template matTabContent>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+                           
+                            <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="flex items-start justify-between">
+                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Summary</div>
+                                    <div class="ml-2 -mt-2 -mr-3">
+                                        <button
+                                            mat-icon-button
+                                            [matMenuTriggerFor]="summaryMenu">
+                                            <mat-icon
+                                                class="icon-size-5"
+                                                [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                                        </button>
+                                        <mat-menu #summaryMenu="matMenu">
+                                            <button mat-menu-item>Yesterday</button>
+                                            <button mat-menu-item>2 days ago</button>
+                                            <button mat-menu-item>3 days ago</button>
+                                        </mat-menu>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-center mt-2">
+                                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">21</div>
+                                    <div class="text-lg font-medium text-blue-600 dark:text-blue-500">Due Tasks</div>
+                                    <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
+                                        <div class="text-md font-medium truncate">Completed:</div>
+                                        <div class="ml-1.5 text-lg font-semibold">13</div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="flex items-start justify-between">
+                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Overdue</div>
+                                    <div class="ml-2 -mt-2 -mr-3">
+                                        <button
+                                            mat-icon-button
+                                            [matMenuTriggerFor]="overdueMenu">
+                                            <mat-icon
+                                                class="icon-size-5"
+                                                [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                                        </button>
+                                        <mat-menu #overdueMenu="matMenu">
+                                            <button mat-menu-item>Yesterday</button>
+                                            <button mat-menu-item>2 days ago</button>
+                                            <button mat-menu-item>3 days ago</button>
+                                        </mat-menu>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-center mt-2">
+                                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">17</div>
+                                    <div class="text-lg font-medium text-red-600 dark:text-red-500">Tasks</div>
+                                    <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
+                                        <div class="text-md font-medium truncate">From yesterday:</div>
+                                        <div class="ml-1.5 text-lg font-semibold">9</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="flex items-start justify-between">
+                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Issues</div>
+                                    <div class="ml-2 -mt-2 -mr-3">
+                                        <button
+                                            mat-icon-button
+                                            [matMenuTriggerFor]="issuesMenu">
+                                            <mat-icon
+                                                class="icon-size-5"
+                                                [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                                        </button>
+                                        <mat-menu #issuesMenu="matMenu">
+                                            <button mat-menu-item>Yesterday</button>
+                                            <button mat-menu-item>2 days ago</button>
+                                            <button mat-menu-item>3 days ago</button>
+                                        </mat-menu>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-center mt-2">
+                                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-amber-500">24</div>
+                                    <div class="text-lg font-medium text-amber-600 dark:text-amber-500">Open</div>
+                                    <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
+                                        <div class="text-md font-medium truncate">Closed today:</div>
+                                        <div class="ml-1.5 text-lg font-semibold">19</div>
+                                    </div>
+                                </div>
+                            </div>
+                         
+                            <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="flex items-start justify-between">
+                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Features</div>
+                                    <div class="ml-2 -mt-2 -mr-3">
+                                        <button
+                                            mat-icon-button
+                                            [matMenuTriggerFor]="featuresMenu">
+                                            <mat-icon
+                                                class="icon-size-5"
+                                                [svgIcon]="'heroicons_solid:dots-vertical'"></mat-icon>
+                                        </button>
+                                        <mat-menu #featuresMenu="matMenu">
+                                            <button mat-menu-item>Yesterday</button>
+                                            <button mat-menu-item>2 days ago</button>
+                                            <button mat-menu-item>3 days ago</button>
+                                        </mat-menu>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-center mt-2">
+                                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-500">38</div>
+                                    <div class="text-lg font-medium text-green-600 dark:text-green-500">Proposals</div>
+                                    <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
+                                        <div class="text-md font-medium truncate">Implemented:</div>
+                                        <div class="ml-1.5 text-lg font-semibold">16</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                       
+                 
+                    
+                            
+                        </div>
+                    </ng-template>
+                </mat-tab> -->
+            </mat-tab-group>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,120 @@
+<div class="container" > 
+  
+    
+  <div class='demo-app'>
+  
+      <div >
+        
+
+          <div  class="text-3xl font-bold tracking-tight leading-none" style="margin-top: 30px;"> ALL Calenders ({{afterFilter?.length}})</div>
+        <div style="margin-top: 30px;">
+          <label >
+       
+            <mat-checkbox [checked]='calendarVisible'
+            (change)='handleCalendarToggle()'> toggle whole calendar</mat-checkbox>
+           
+          </label><br>
+       
+          <label>
+            <mat-checkbox  [checked]='calendarOptions.weekends'
+            (change)='handleWeekendsToggle()'> toggle weekends</mat-checkbox>
+           
+          </label>
+        </div>
+                    <!-- Main actions -->
+                    <div class="flex items-center mt-4 sm:mt-0 md:mt-4" style="width:auto ;margin-left: 40px;">
+                      <!-- Search -->
+                      <div class="flex-auto">
+                          <mat-form-field
+                              class="fuse-mat-dense fuse-mat-rounded w-full min-w-50"
+                              subscriptSizing="dynamic">
+                              <mat-icon
+                                  class="icon-size-5"
+                                  matPrefix
+                                  [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                              <input
+                                  matInput
+                                  name="name" id="name" placeholder="Search..."   [(ngModel)]="searchByName"  (ngModelChange)="filterArray()"
+                                  [autocomplete]="'off'"
+                                  [placeholder]="'Search contacts'">
+                          </mat-form-field>
+                      </div>
+             
+          
+      
+                      <!-- Add contact button -->
+                      <button
+                          class="ml-4"
+                          mat-flat-button
+                          [color]="'primary'"
+                          matTooltip="create new calender" matTooltipPosition="left"  (click)="openAddCalender()">
+                          <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                        
+                      </button>
+                  </div>
+                  <mat-action-list>
+                    <mat-list-item *ngFor="let item of afterFilter; let i = index" [ngClass]="{'first-option': i === 0}" (click)="selectCheckbox(i)">
+                      <div>
+                        <div >
+                          
+                          <table>
+                            <tr>
+                              <td>
+                                <ng-container  >
+                                  <button  	  matTooltip="more info"  color="primary"   [matMenuTriggerFor]="mainMenu" *ngIf="!(item.summary === 'wind.test2023@gmail.com')">
+                                  <mat-icon  svgIcon="heroicons_outline:information-circle"></mat-icon>
+                                </button>
+                          
+                              </ng-container>
+                            </td>
+                            <td>
+                              <ng-container >
+                                <mat-checkbox  name="checkbox1" [(ngModel)]="item.selected" >
+                                  <span>{{item.summary}}</span>
+                                </mat-checkbox>
+                                
+                              </ng-container>
+                            </td>
+                          </tr>
+                          </table>
+          
+                        </div>
+                        <mat-menu #mainMenu="matMenu" xPosition="before">
+                          <button mat-menu-item aria-label="view item" (click)="openDetailsCalender(item.id)">
+                            <mat-icon color="primary">info</mat-icon> Details
+                          </button>
+                          <button mat-menu-item aria-label="Delete item" (click)="openConfirmationDialog(item.id)">
+                            <mat-icon color="warn">delete</mat-icon> Delete
+                          </button>
+                          <button mat-menu-item aria-label="Edit item" (click)="openUpdateCalender(item.id)">
+                            <mat-icon color="primary">edit</mat-icon>Edit
+                          </button>
+                        </mat-menu>
+                      </div>
+                    </mat-list-item>
+                  </mat-action-list>
+                  
+                  
+      </div>
+     
+    
+      <div class='demo-app-main' >
+        <full-calendar *ngIf='calendarVisible' [options]='calendarOptions' style="width: 1000px;">
+          <ng-template #eventContent let-arg>
+            <b>{{ arg.timeText }}</b><br>
+            <i>{{ arg.event.title }}</i><br>
+            <i>{{ arg.event.start.timeText }}</i>
+          </ng-template>
+        </full-calendar>
+       
+    
+    </div>
+  </div>
+  
+  <div class="d-inline-block" tabindex="0" data-toggle="tooltip" title="" *ngIf="event" style="margin-top: -200px;">
+    <h3>{{ event.summary }}</h3>
+    <p>Start: {{start }}</p>
+    <p>End: {{ end }}</p>
+    <p>Description: {{ event.description }}</p>
+  </div>
+  </div>

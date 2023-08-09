@@ -1,0 +1,92 @@
+<div class="w-full max-w-3xl">
+
+
+
+
+
+    
+    <!-- Form -->
+
+
+        <!-- Section -->
+        <div class="w-full">
+            <div class="text-xl">Change your email</div>
+            <div class="text-secondary">You can only change your password twice within 24 hours!</div>
+        </div>
+        <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+            <!-- Current password -->
+            <div class="sm:col-span-4">
+                <form [formGroup]="updateEmailFormGroup" (ngSubmit)="UpdateEmail()">
+                    <mat-form-field class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                        <mat-label>New Email</mat-label>
+                        <input type="text" matInput formControlName="email" placeholder="Ex. John">
+                        <mat-error *ngIf="updateEmailNewEmail.hasError('email') || updateEmailNewEmail.hasError('serverError')">
+                            Enter a valid email address
+                        </mat-error>
+                        <mat-error *ngIf="updateEmailNewEmail.hasError('required') || updateEmailNewEmail.hasError('maxlength')">
+                            This field is required and cannot exceed 64 characters
+                        </mat-error>
+                        <button   mat-icon-button type="button" matSuffix>
+                            <mat-icon
+                            class="icon-size-5"
+                         
+                            [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                        </button>
+                    </mat-form-field>
+
+
+                    <mat-form-field  class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                        <mat-label>Password</mat-label>
+                        <input type="{{ showPassword2 ? 'text' : 'password' }}" matInput formControlName="password" placeholder="*************">
+                        <mat-error *ngIf="updateEmailFormGroup.hasError('required')">
+                            Password is <b>required</b>
+                        </mat-error>
+                        <mat-error *ngIf="updateEmailFormGroup.hasError('minlength', 'maxlength')">
+                            Password must be 6 to 32 characters long
+                        </mat-error>
+                        <mat-error *ngIf="updateEmailFormGroup.hasError('serverError')">
+                            Password has to be alpha numeric and must include uppercase, lowercase, and special characters
+                        </mat-error>
+                        <button   mat-icon-button type="button" matSuffix (mousedown)="showPassword2 = !showPassword2" [attr.aria-label]="showPassword2 ? 'Hide password' : 'Show password'" matSuffix>
+                            <mat-icon
+                            class="icon-size-5"
+                           *ngIf="!showPassword2"
+                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                        <mat-icon
+                            class="icon-size-5"
+                            *ngIf="showPassword2"
+                            [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+                          </button>
+                    </mat-form-field>
+              
+
+<div class="flex items-center justify-end" style="margin-top: 30px;">
+    <button
+        mat-stroked-button
+        type="button">
+        Cancel
+    </button>
+    <button
+        class="ml-4"
+        mat-flat-button
+        type="submit"
+        [color]="'primary'">update email
+    </button>
+</div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="my-10 border-t"></div>
+
+
+
+   
+
+   
+  
+
+</div>
